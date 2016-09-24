@@ -14,7 +14,8 @@ Click the images to read Exif data. The first image tests reading single tags, w
 <br/><br/>
 Note: these examples will not work if running from a local file:// URL.
 <br/><br/>
-<img src="DSCN0614_small.jpg" id="img1" />
+<img src="has_geo_metadata.jpg" id="img1"/>
+<!--<img src="DSCN0614_small.jpg"  />-->
 <br/>
 <img src="Bush-dog.jpg" id="img2" />
 <br/>
@@ -30,9 +31,12 @@ Note: these examples will not work if running from a local file:// URL.
 <script>
 document.getElementById("img1").onclick = function() {
     EXIF.getData(this, function() {
-        var make = EXIF.getTag(this, "Make"),
-            model = EXIF.getTag(this, "Model");
-        alert("I was taken by a " + make + " " + model);
+        var gps = EXIF.getTag(this, "GPSDestLatitude");
+            //model = EXIF.getTag(this, "Model");
+        //var exifTest = EXIF.getTag(this, "Make")
+
+        console.log("I was taken by a " + gps);
+        //console.log('EXIF', exifTest);
     });
 }
 
@@ -50,7 +54,14 @@ document.getElementById("img3").onclick = function() {
 
 document.getElementById("file-input").onchange = function(e) {
     EXIF.getData(e.target.files[0], function() {
-        alert(EXIF.pretty(this));
+        //console.log(EXIF.pretty(this));
+        var latitude = EXIF.getTag(this, "GPSLatitude");
+        var longitude = EXIF.getTag(this, "GPSLongitude");
+        //+'.',,'.',
+        var cleanLatitude = latitude[0].toString().trim()+'.'+latitude[1].toString().trim()+'.'+latitude[2].toString().trim();
+        var cleanLongitude = longitude[0].toString().trim()+'.'+longitude[1].toString().trim()+'.'+longitude[2].toString().trim();
+        console.log('cleanLatitude', cleanLatitude);
+        console.log('cleanLongitude', cleanLongitude);
     });
 }
 
